@@ -91,7 +91,6 @@ li a:hover {
 }
 
 .main {
-  column-count: 3;
   column-gap: 40px;
   column-width: 300px;
   font-size: 14px;
@@ -102,6 +101,37 @@ li a:hover {
 .show-hide {
   color: gray;
   font-size: 12px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 10px;
+}
+
+footer {
+  border-top: 1px greenyellow solid;
+  padding: 10px;
+  font-size: 12px;
+  color: gray;
+}
+
+#spread {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media only screen and (max-width: 768px) {
+  .main {
+    column-count: 1;
+  }
+}
+
+/* Tablet Styles */
+@media only screen and (min-width: 768px) and (max-width: 1200px) {
+  .main {
+    column-count: 2;
+  }
+}
+
+/* Desktop Styles */
+@media only screen and (min-width: 1200px) {
+  .main {
+    column-count: 3;
+  }
 }
