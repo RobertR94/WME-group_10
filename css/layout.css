@@ -116,6 +116,10 @@ footer {
   justify-content: space-between;
 }
 
+th {
+  border-bottom: 2px solid #ddd;
+}
+
 @media only screen and (max-width: 768px) {
   .main {
     column-count: 1;
@@ -134,4 +138,10 @@ footer {
   .main {
     column-count: 3;
   }
+}
+
+article {
+
+  margin-left: 2.5%;
+  margin-right: 2.5%;
 }
