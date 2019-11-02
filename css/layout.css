@@ -96,6 +96,8 @@ li a:hover {
   font-size: 14px;
   padding: 10px;
   border-bottom: 2px #d8d8d8 solid;
+  border-left: 2px #d8d8d8 solid;
+  border-right: 2px #d8d8d8 solid;
 }
 
 .show-hide {
@@ -116,8 +118,33 @@ footer {
   justify-content: space-between;
 }
 
+tr.row:nth-child(odd) {
+  background-color: #bfbfbf;
+}
+
 th {
   border-bottom: 2px solid #ddd;
+  text-align: left;
+}
+th, td {
+  padding-bottom: 6px;
+  padding-top: 6px;
+}
+
+article {
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-bottom: 1px #d8d8d8 solid;
+}
+
+#botton{
+  padding-bottom: 16px;
 }
 
 @media only screen and (max-width: 768px) {
@@ -140,8 +167,6 @@ th {
   }
 }
 
-article {
 
-  margin-left: 2.5%;
-  margin-right: 2.5%;
-}
+
+
