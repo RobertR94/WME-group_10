@@ -118,17 +118,22 @@ footer {
   justify-content: space-between;
 }
 
-tr.row:nth-child(odd) {
+tr:nth-child(even) {
   background-color: #bfbfbf;
 }
 
 th {
   border-bottom: 2px solid #ddd;
+}
+
+td, th {
+  padding-bottom: 8px;
+  padding-top: 8px;
   text-align: left;
 }
-th, td {
-  padding-bottom: 6px;
-  padding-top: 6px;
+
+td{
+  font-size: 14px;
 }
 
 article {
@@ -151,12 +156,27 @@ table {
   .main {
     column-count: 1;
   }
+
+  article {
+    margin: 0;
+  }
+
+  th:nth-child(n+5), td:nth-child(n+5){
+    display: none;
+  }
 }
 
 /* Tablet Styles */
 @media only screen and (min-width: 768px) and (max-width: 1200px) {
   .main {
     column-count: 2;
+  }
+  article {
+    margin: 0;
+  }
+
+  th:last-child, td:last-child{
+    display: none;
   }
 }
 
