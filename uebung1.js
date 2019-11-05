@@ -1,6 +1,7 @@
 
 //World Data
-var world_data = (
+var world_data = [
+  ["ID", "Country", "Birth / 1000", "cellphones / 100", "children / woman", "electric usage", "internet usage"],
   ["001", "Brazil", "16.405", "90.01936334", "1.862", "2201.808724", "39.22"],
   ["002", "Canada", "10.625", "70.70997244", "1.668", "15119.76414", "80.1708665"],
   ["003", "Chile", "15.04", "97.01862561", "1.873", "3276.06449", "38.8"],
@@ -9,7 +10,7 @@ var world_data = (
   ["006", "Ecuador", "20.989", "92.84925653", "2.69", "1078.038961", "24.6"],
   ["007", "Egypt", "24.83", "69.43661504", "2.919", "1607.918763", "24.28 "],
   ["008", "Finland", "11.127", "144.1530224", "1.86" ,"15241.61194", "82.53133098"],
-  ["009", "France"], "12.21", "95.44434226", "1.978", "7339.946832", "69.0633593",
+  ["009", "France", "12.21", "95.44434226", "1.978", "7339.946832", "69.0633593"],
   ["010", "Germany", "8.136", "127.4188883", "1.376", "6753.05764", "79.48523153"],
   ["011", "Iceland", "14.738", "107.6604456", "2.123", "51259.18763", "92.13686385"],
   ["012", "Iraq", "31.585", "65.47478839", "4.276", "1086.323768", "1.047516616"],
@@ -23,11 +24,14 @@ var world_data = (
   ["020", "Saudi Arabia", "23.569", "167.3474553", "2.898", "7430.743897", "38"],
   ["021", "South Africa", "22.113", "93.33587369", "2.5", "4532.021902", "10.08745979"],
   ["022", "Sweden", "11.72", "112.1241184", "1.937", "14143.01101", "77.79971962"],
-  ["023", "United Arab Emirates"], "14.027", "153.7997194", "1.903", "9998.291079", "91.12326108",
+  ["023", "United Arab Emirates", "14.027", "153.7997194", "1.903", "9998.291079", "91.12326108"],
   ["024", "United Kingdom", "12.195", "130.1742603", "1.89", "5685.635995", "64"],
   ["025", "United States", "14.191", "89.14911634", "2.002", "12913.71143", "71.21181627"]
-)
+]
 
+
+var birth = false, cellphone = false, cm = false, eu = false,  iu = false;
+var sort_val = [birth, cellphone, cm, eu, iu];
 
 // When the user scrolls the page, execute myFunction
 window.onscroll = function() {
@@ -60,7 +64,76 @@ function myFunction() {
   }
 }
 
-//Print table
+//i_up.classList.add("fasfa-angle-up");
+//i_down.classList.add("fasfa-angle-down");
+//tn.innerHTML = val;
+
+//Create a new Cell
+function addCell(tr, val, row){
+
+
+  var tn;
+  if(row == 0){
+    tn = document.createElement('th')
+    if(val == "Country"){
+      tn.id = "sort_all"
+    }
+  }
+  else{
+    tn = document.createElement('td')
+  }
+  
+  tn.innerHTML = val;
+  tr.appendChild(tn);
+}
+
+//Create row
+function addRow(tEl, rowData, row){
+
+  var tr;
+  tr = document.createElement('tr')
+  var i;
+  for(i = 0; i < 7; i++){
+
+    if(!shouldFilter(i)){
+      addCell(tr, rowData[i], row)
+    }     
+  }
+  tEl.appendChild(tr);
+}
+
+//Get table to the html file
+function createTable(data){
+
+  var countr;
+  table_head = document.getElementById('data_head');
+  table_body = document.getElementById('data_body');
+  var i;
+  for(i = 0; i < data.length; i++){
+
+    if(i == 0){
+      addRow(table_head, data[i], i);
+    }
+    else{
+      addRow(table_body, data[i], i);
+    }
+  }
+
+  countr = document.getElementById('sort_all');
+  i_up = document.createElement("i");
+  i_down = document.createElement("i")
+  i_up.classList += "fas fa-angle-up";
+  i_down.classList += "fas fa-angle-down";
+  i_up.onclick = function asc() { 
+    sortCountry(0);
+  }
+  i_down.onclick = function desc() {
+    sortCountry(1);
+  }
+  countr.appendChild(i_up);
+  countr.appendChild(i_down);
+
+}
 
 //sort table
 function sortCountry(n){
@@ -104,5 +177,62 @@ function sortCountry(n){
 
 }
 
+function filterCol(n){
 
+  setFilterCol(n);
+  var head = document.getElementById('data_head');
+  while (head.firstChild) {
+    head.removeChild(head.firstChild);
+  }
+  var body = document.getElementById('data_body');
+  while (body.firstChild) {
+    body.removeChild(body.firstChild);
+  }
+  createTable(world_data);
+}
+
+function setFilterCol(col){
+  
+  if(sort_val[col] == false){
+    sort_val[col] = true
+  }
+  else{
+    sort_val[col] = false;
+  }
+  
+}
+
+/*
+function filter(col, data){
+  var i, j;
+  var table = new Array(data);
+  for(i = 0; i < world_data.length; i++){
+
+    for(j = 0; j < 7; j++){
+
+      if(j == col){
+        table[i].splice(j, 1);
+      }
+    }
+  }
+  
+  console.log(table[0]);
+  console.log(world_data[0]);
+  return table;
+}
+*/
+function shouldFilter(col){
+
+  if(col >= 2){
+    return sort_val[col -2];
+  }
+  else
+    return false;
+}
+
+  
+
+document.addEventListener('DOMContentLoaded', function() {
+  createTable(world_data);
+}, false);
 

@@ -78,15 +78,19 @@
         </div>
         <ul class="show-hide" id="bottom">
           <li class="space">Show/Hide:</li>
-          <li class="space" onclick="filterCol(2)">birth rate |</li>
-          <li class="space" onclick="filterCol(3)">cellphones |</li>
-          <li class="space" onclick="filterCol(4)">children/women |</li>
-          <li class="space" onclick="filterCol(5)">electic usage |</li>
-          <li class="space" onclick="filterCol(6)">internet usage</li>
+          <li class="space" onclick="filterCol(0)">birth rate |</li>
+          <li class="space" onclick="filterCol(1)">cellphones |</li>
+          <li class="space" onclick="filterCol(2)">children/women |</li>
+          <li class="space" onclick="filterCol(3)">electic usage |</li>
+          <li class="space" onclick="filterCol(4)">internet usage</li>
         </ul>
         <table id="world_data">
+          <thead id="data_head">
+          </thead>
+          <tbody id="data_body">
+          </tbody>
         </table>
-        <p class="show-hide" id="bottom">
+        <p class="show-hide" id="bottom" onclick="main()">
             Show/Hide: birth rate | cellphones | children/women | electic usage |
             internet usage
         </p>
