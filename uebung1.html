@@ -76,10 +76,14 @@
           cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
           est laborum. from: <a href="https://loremipsum.io/">johny_ipsum</a>
         </div>
-        <p class="show-hide">
-            Show/Hide: birth rate | cellphones | children/women | electic usage |
-            internet usage
-        </p>
+        <ul class="show-hide" id="bottom">
+          <li class="space">Show/Hide:</li>
+          <li class="space" onclick="filterCol(2)">birth rate |</li>
+          <li class="space" onclick="filterCol(3)">cellphones |</li>
+          <li class="space" onclick="filterCol(4)">children/women |</li>
+          <li class="space" onclick="filterCol(5)">electic usage |</li>
+          <li class="space" onclick="filterCol(6)">internet usage</li>
+        </ul>
         <table id="world_data">
           <thead>
             <tr>
@@ -112,7 +116,7 @@
             <tr>
               <td>002</td>
               <td>Canada</td>
-              <td>10.625</td>
+              <td id="del">10.625</td>
               <td>70.70997244</td>
               <td>1.668</td>
               <td>15119.76414</td>

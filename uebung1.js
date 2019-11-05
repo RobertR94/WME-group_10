@@ -71,24 +71,19 @@ function sortCountry(n){
 
 }
 
-/*
-while(run){
 
-    run = false;
+//filter rows
 
-    for(i= 1; i < (table.rows.length -1); i++){
+function filterCol(col){
 
-      shouldSwitch = false;
-      elem = table.rows[i].cells[cell];
-      nextElem = table.rows[i + 1].cells[cell];
+  var table, length;
+  table = document.getElementById('world_data');
+  length = table.rows.length;
 
-      if(dir == "asc"){
+  for (i = 0; i < length; i++){
 
-      }
-      else if(dir == "desc"){
-        
-      }
-    }
+    table.rows[i].cells[col].classList.add('dis');
   }
-
-*/
+  
+  
+}
