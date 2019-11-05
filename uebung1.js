@@ -125,17 +125,17 @@ function createTable(data){
   i_up.classList += "fas fa-angle-up";
   i_down.classList += "fas fa-angle-down";
   i_up.onclick = function asc() { 
-    sortCountry(0);
+    sortCountrys(0);
   }
   i_down.onclick = function desc() {
-    sortCountry(1);
+    sortCountrys(1);
   }
   countr.appendChild(i_up);
   countr.appendChild(i_down);
 
 }
 
-//sort table
+//sort table old function
 function sortCountry(n){
 
   var table, dir, run, shouldSwitch, cell, elem, nextElem;
@@ -202,25 +202,6 @@ function setFilterCol(col){
   
 }
 
-/*
-function filter(col, data){
-  var i, j;
-  var table = new Array(data);
-  for(i = 0; i < world_data.length; i++){
-
-    for(j = 0; j < 7; j++){
-
-      if(j == col){
-        table[i].splice(j, 1);
-      }
-    }
-  }
-  
-  console.log(table[0]);
-  console.log(world_data[0]);
-  return table;
-}
-*/
 function shouldFilter(col){
 
   if(col >= 2){
@@ -230,6 +211,60 @@ function shouldFilter(col){
     return false;
 }
 
+//sort Table alphabetical new function
+function sortCountrys(n){
+
+  var table, dir, run, shouldSwitch, cell, elem, nextElem, i;
+  cell = 1;
+  run = true;
+
+  if(n == 0){
+    dir = "asc";
+  }
+  else{
+    dir="desc";
+  }
+
+  while(run){
+
+    
+    run = false;
+    for(i = 1; i < world_data.length - 1; i++){
+
+      elem = world_data[i][cell];
+      nextElem = world_data[i +1][cell];
+
+      if(dir == "asc"){
+        if(elem > nextElem){
+          temp = world_data[i];
+          world_data[i] = world_data[i + 1];
+          world_data[i + 1] = temp;
+          run = true;
+        }
+      }
+      else if(dir == "desc"){
+        if(elem < nextElem){
+          temp = world_data[i];
+          world_data[i] = world_data[i + 1];
+          world_data[i + 1] = temp;
+          run = true;
+        }
+      }
+    }
+  }
+
+  var head = document.getElementById('data_head');
+  while (head.firstChild) {
+    head.removeChild(head.firstChild);
+  }
+  var body = document.getElementById('data_body');
+  while (body.firstChild) {
+    body.removeChild(body.firstChild);
+  }
+  createTable(world_data);
+
+
+}
   
 
 document.addEventListener('DOMContentLoaded', function() {

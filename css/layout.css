@@ -116,6 +116,18 @@ footer {
 .space {
 
   margin-left: 4px;
+  
+}
+
+.button {
+  margin-left: 4px;
+  text-decoration-line: underline;
+}
+
+.button:hover{
+  margin-left: 4px;
+  text-decoration-line: none;
+  cursor: pointer;
 }
 
 .dis{
@@ -163,6 +175,9 @@ table {
   padding-bottom: 16px;
 }
 
+#sort_all:hover{
+  cursor: pointer;
+}
 
 @media only screen and (max-width: 768px) {
   .main {
