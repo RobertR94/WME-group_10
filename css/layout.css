@@ -121,12 +121,16 @@ footer {
 
 .button {
   margin-left: 4px;
+  
+}
+
+.underline{
+
   text-decoration-line: underline;
 }
 
 .button:hover{
-  margin-left: 4px;
-  text-decoration-line: none;
+  
   cursor: pointer;
 }
 

@@ -31,6 +31,7 @@ var world_data = [
 
 
 var birth = false, cellphone = false, cm = false, eu = false,  iu = false;
+var ids = ["s1", "s2", "s3", "s4", "s5"];
 var sort_val = [birth, cellphone, cm, eu, iu];
 
 // When the user scrolls the page, execute myFunction
@@ -177,9 +178,8 @@ function sortCountry(n){
 
 }
 
-function filterCol(n){
+function refresh(){
 
-  setFilterCol(n);
   var head = document.getElementById('data_head');
   while (head.firstChild) {
     head.removeChild(head.firstChild);
@@ -191,13 +191,24 @@ function filterCol(n){
   createTable(world_data);
 }
 
-function setFilterCol(col){
+function filterCol(n){
   
+  setFilterCol(n);
+  refresh();
+  
+  
+}
+
+function setFilterCol(col){
+  var elem;
+  elem = document.getElementById(ids[col]);
   if(sort_val[col] == false){
     sort_val[col] = true
+    elem.classList.remove("underline");
   }
   else{
     sort_val[col] = false;
+    elem.classList.add("underline");
   }
   
 }
@@ -253,15 +264,7 @@ function sortCountrys(n){
     }
   }
 
-  var head = document.getElementById('data_head');
-  while (head.firstChild) {
-    head.removeChild(head.firstChild);
-  }
-  var body = document.getElementById('data_body');
-  while (body.firstChild) {
-    body.removeChild(body.firstChild);
-  }
-  createTable(world_data);
+  refresh();
 
 
 }
