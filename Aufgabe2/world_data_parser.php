@@ -54,5 +54,25 @@ class WorldDataParser{
          }
     }
 
+
+    //returns the data from the XML file styled with xsl stylesheet as a DOMDocument
+    function printXML($path_xml, $path_xslt) {
+
+        
+        $xml = new DOMDocument();
+        $xml->load($path_xml);
+        
+        $xsl = new DOMDocument;
+        $xsl->load($path_xslt);
+
+        $proc = new XSLTProcessor;
+        $proc->importStyleSheet($xsl);
+        $html_table = $proc->transformToDoc($xml);
+
+        return $html_table;
+
+
+    }
+
 }
 ?>
