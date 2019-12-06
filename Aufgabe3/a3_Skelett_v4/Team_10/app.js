@@ -34,8 +34,8 @@ app.get("/items", (req, res, next) => {
 });
 
 app.get("/items/:id", (req, res, next) => {
-  const itemId = req.params.id;
-  const item = jsonArray.find(_item => _item.id === itemId);
+  const itemId = parseInt(req.params.id);
+  const item = jsonArray.find(_item => parseInt(_item.id) === itemId);
 
   if (item) {
     res.json(item);
@@ -45,14 +45,19 @@ app.get("/items/:id", (req, res, next) => {
 });
 
 app.get("/items/:id1/:id2", (req, res, next) => {
-  const id1 = req.params.id1;
-  const id2 = req.params.id2;
-  if (id1 < 1 || id2 > Object.keys(jsonArray).length || id1 > id2) {
+  const id1 = parseInt(req.params.id1);
+  const id2 = parseInt(req.params.id2);
+  const item1 = jsonArray.find(_item => parseInt(_item.id) === id1);
+  const item2 = jsonArray.find(_item => parseInt(_item.id) === id2);
+  if (!item1 || !item2 || id1 > id2) {
     res.json({ status: `Range not possible` });
   }
   var countries = [];
   for (i = id1 - 1; i < id2; i++) {
-    countries.push(jsonArray[i]);
+    const item = jsonArray.find(_item => parseInt(_item.id) === i);
+    if (item) {
+      countries.push(item);
+    }
   }
 
   res.json(countries);
@@ -63,9 +68,9 @@ app.get("/properties", (req, res, next) => {
 });
 
 app.get("/properties/:num", (req, res, next) => {
-  const num = req.params.num;
+  const num = parseInt(req.params.num) - 1;
   const properties = Object.keys(jsonArray[1]);
-  if (num < 1 || num > properties.length) {
+  if (!properties[num]) {
     res.json({ status: `No such property available.` });
   } else {
     res.json(properties[num]);
@@ -75,22 +80,43 @@ app.get("/properties/:num", (req, res, next) => {
 app.post("/items", (req, res) => {
   //konsumiert json-Objekt mit Property name sowie 2 beliebigen Properties,
   //gibt Status: „Added country {name} to list!“ zurück
-
+  const init_length = Object.keys(jsonArray).length;
   const item = req.body;
+  const keys = Object.keys(item);
 
-  jsonArray.push(item);
-
-  res.json({ status: `Added country ${item.name} to list!` });
+  if (keys.length < 3) {
+    res.json({ status: `Should have more than 2 properties.` });
+  } else if (!("name" in item)) {
+    res.json({ status: `Property 'name' is obligatory.` });
+  } else {
+    jsonArray.push(item);
+    if (init_length < 9) {
+      jsonArray[init_length].id = "00" + (init_length + 1);
+    } else if (init_length < 99) {
+      jsonArray[init_length].id = "0" + (init_length + 1);
+    }
+    res.json({ status: `Added country ${item.name} to list!` });
+  }
 });
 
 app.delete("/items", (req, res) => {
-  // löscht letztes Land aus der Liste
+  name = jsonArray[Object.keys(jsonArray).length - 1].name;
+  jsonArray.pop();
   //Status: „Deleted last country: {name}!“
+  res.json({ status: `Deleted last country: ${name}!` });
 });
 
 app.delete("/items/:id", (req, res) => {
-  // löscht Land mit der ID id,
-  //Status bei Erfolg: „Item {id} deleted successfully.“ oder bei Fehler: „No such id {id} in database“
+  const id = parseInt(req.params.id);
+  const item = jsonArray.find(_item => parseInt(_item.id) === id);
+  if (item) {
+    jsonArray = jsonArray.filter(function(e) {
+      return parseInt(item.id) !== id;
+    });
+    res.json({ status: `Item ${id} deleted successfully.` });
+  } else {
+    res.json({ status: `No such id ${id} in database` });
+  }
 });
 
 /**************************************************************************
