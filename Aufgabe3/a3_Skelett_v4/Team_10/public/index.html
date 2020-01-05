@@ -60,7 +60,7 @@
 							<input type="text" name="country_filter_range" id="country_filter_range">
 						</p>
 						<p class="submit">
-							<input type="submit" name="submit" id="add_submit" value="Filter Countries">
+							<buttom class="green_btn" type="submit" name="submit" id="set_filter" >Filter Countries</buttom>
 						</p>
 					</form>
 				</div>
@@ -78,7 +78,7 @@
 			<div class="rest-add">
 				<div class="rest-api-block">
 					<h2>Add Country</h2>
-					<form name="country_add" id="country_add" method="POST">
+					<form name="country_add" id="country_add">
 						<p>
 							<label for="country_name">country name</label>
 							<input type="text" name="country_name" id="country_name">
@@ -117,17 +117,12 @@
 		<table>
 			<thead>
 				<tr id="table_head">
-					<th>ID</th>
-					<th>Country</th>
-					<th>birth rate / 1000</th>
-					<th>cellphones / 100</th>
-					<th>children / woman</th>
-					<th>electric usage</th>
-					<th>internet usage</th>
+					
 				</tr>
 			</thead>
 			<tbody id="table_body">
 				<!-- list countrys with ajax -->
+				
 			</tbody>
 		</table>
 
@@ -145,13 +140,13 @@
 		<div class="right">
 			<p>
 				This solution has been created by:<br>
-				TEAM fixme
+				TEAM 10
 			</p>
 		</div>
 	</div>
 </footer>
 
-<script type="text/javascript" src="assets/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="assets/js/ajax.js"></script>
 
 </body>

@@ -29,7 +29,12 @@ csv()
     jsonArray = jsonArrayObj;
   });
 
+/**************************************************************************
+ ********************** handle HTTP METHODS ***********************
+ **************************************************************************/
+
 app.get("/items", (req, res, next) => {
+  
   res.json(jsonArray);
 });
 
@@ -53,7 +58,7 @@ app.get("/items/:id1/:id2", (req, res, next) => {
     res.json({ status: `Range not possible` });
   }
   var countries = [];
-  for (i = id1 - 1; i < id2; i++) {
+  for (i = id1; i <= id2; i++) {
     const item = jsonArray.find(_item => parseInt(_item.id) === i);
     if (item) {
       countries.push(item);
@@ -110,8 +115,8 @@ app.delete("/items/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const item = jsonArray.find(_item => parseInt(_item.id) === id);
   if (item) {
-    jsonArray = jsonArray.filter(function(e) {
-      return parseInt(item.id) !== id;
+    jsonArray = jsonArray.filter(function(country) {
+      return parseInt(country.id) !== id;
     });
     res.json({ status: `Item ${id} deleted successfully.` });
   } else {
@@ -119,9 +124,8 @@ app.delete("/items/:id", (req, res) => {
   }
 });
 
-/**************************************************************************
- ********************** handle HTTP METHODS ***********************
- **************************************************************************/
+
+ 
 
 // DO NOT CHANGE!
 // bind server to port
