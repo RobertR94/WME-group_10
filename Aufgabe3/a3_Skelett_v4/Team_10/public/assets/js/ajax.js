@@ -10,6 +10,7 @@ $(document).ready(function(){
     listProperties();
     //fill table with data
     getAllItems();
+   
 
     //filter for id or id range
     $("#set_filter").click(function(){
@@ -57,18 +58,24 @@ $(document).ready(function(){
     $("#show_selected_prop").click(function(){
         var selection =  $("#prop_selection option:selected").index();
         propFilter[selection] = false;
-        resetTable();
-        getAllItems();
+
+        $("th:nth-child(" +(selection+1) + ")").show();
+        $("td:nth-child(" +(selection+1) + ")").show();
+
+
+        
 
     })
     //hide propertie
     $("#hide_selected_prop").click(function(){
         var selection =  $("#prop_selection option:selected").index();
         propFilter[selection] = true;
-        resetTable();
-        getAllItems();
- 
+        
+        $("th:nth-child(" + (selection+1) + ")").hide();
+        $("td:nth-child(" + (selection+1) + ")").hide();
+
      })
+
     //add country to database
     $("#country_add").submit(function(event){
         
@@ -155,25 +162,19 @@ function updateTable(data){
 
     var content = "";
     var head = "";
-    var selectedTableProperties = [];
-    
-    for(var i = 0; i < propFilter.length; i++){
-        console.log(propFilter[i]);
-        if(!propFilter[i]){
-            console.log(tableProperties[i]);
-            head += "<th class=\"row \">" + tableProperties[i] + "</th>";
-            selectedTableProperties.push(tableProperties[i]);
-        }
-        
-        
+    // var selectedTableProperties = [];
+    for(prop of tableProperties){
+        head += "<th class=\"row \">" + prop + "</th>";
     }
+  
+
     $("#table_head").append(head);
 
     if(Array.isArray(data)){
         data.forEach(country => {
    
             content += "<tr class=\"row\">";
-            for(prop of selectedTableProperties){
+            for(prop of tableProperties){
     
                 content += "<td>" + country[prop] + "</td>";
                 
@@ -184,7 +185,7 @@ function updateTable(data){
     
     else{
         content += "<tr class=\"row \">"
-        for(prop of selectedTableProperties){
+        for(prop of tableProperties){
     
             content += "<td>" + data[prop] + "</td>";
             
@@ -194,12 +195,28 @@ function updateTable(data){
     
     
     $("#table_body").append(content);
+    setShowHide();
 }
 
 
 function resetTable(){
     $(".row").remove();
 
+
+}
+
+function setShowHide(){
+
+    for(var i = 0; i < propFilter.length; i++){
+        if(propFilter[i]){
+            $("th:nth-child(" +(i+1)+ ")").hide();
+            $("td:nth-child(" +(i+1)+ ")").hide();
+        }
+        else{
+            $("th:nth-child(" +(i+1)+ ")").show();
+            $("td:nth-child(" +(i+1)+ ")").show();
+        }
+    }
 
 }
 
@@ -226,4 +243,3 @@ function listProperties(){
     });
 
 }
-
