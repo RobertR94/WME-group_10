@@ -1,0 +1,17 @@
+{
+  "name": "wme_vis_app",
+  "description": "",
+  "author": "Ricardo Langner",
+  "license": "",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "nodemon -w app.js -w ./public app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "csvtojson": "^1.1.12",
+    "express": "^4.17.1",
+    "nodemon": "^1.19.4",
+    "util": "^0.12.1"
+  }
+}
