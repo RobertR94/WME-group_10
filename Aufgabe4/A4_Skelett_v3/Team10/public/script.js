@@ -49,6 +49,8 @@ window.onscroll = stick;
 
 var properties = [];
 var countries_data = [];
+var count = 0;
+
 
 var map = L.map("map", {
   center: [20.0, 5.0],
@@ -137,6 +139,42 @@ function getItems() {
  ********************* D3js vis *************************
  ********************************************************/
 
+ //Highlight Marker on rect hover
+function markMarker(hover, d){
+    if(hover){
+        marker = greenMarker;
+    }
+    else{
+        marker = blueMarker;
+    }
+    map.eachLayer(function(layer){
+        if(layer instanceof L.Marker){
+            if(map.getBounds().contains(layer.getLatLng())){
+                if(layer.getLatLng().lat == d.gps_lat && layer.getLatLng().lng == d.gps_long){
+                    layer.setIcon(marker);
+                }
+            }
+        }
+    })
+
+}
+
+//Highlight rects on rect hover
+function paintRect(hover, id){
+    if(hover){
+        color = 'green';
+    }
+    else{
+        color = 'steelblue'
+    }
+    d3.selectAll('rect').each(function(d, i){
+        if(d.id == id){
+            d3.select(this).style('fill', color);
+        }
+    });
+
+}
+
 function drawChart1(selectedOption) {
   var svg = d3.select("#chart1");
   svg.selectAll("*").remove();
@@ -213,22 +251,32 @@ function drawChart1(selectedOption) {
       .attr("text-anchor", "end")
       .text("value");
 
-    g.selectAll(".bar")
-      .data(data)
-      .enter()
-      .append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) {
-        return xScale(d.name);
+      var bar =  g.selectAll(".bar")
+        .data(data);
+      var rect = bar.enter()
+        .append("rect")
+        .attr("class", "bar")
+        .attr("x", function(d) {
+          return xScale(d.name);
       })
-      .attr("y", function(d) {
-        return yScale(d[selectedOption]);
+        .attr("y", function(d) {
+          return yScale(d[selectedOption]);
       })
-      .attr("width", xScale.bandwidth())
-      .attr("height", function(d) {
-        return height - yScale(d[selectedOption]);
-      });
+        .attr("width", xScale.bandwidth())
+        .attr("height", function(d) {
+         return height - yScale(d[selectedOption]);
+      })
+      rect.on('mouseover', function(d){
+        paintRect(true, d.id);
+        markMarker(true, d);
+      })
+      .on('mouseout', function(d){
+        paintRect(false, d.id);
+        markMarker(false, d);
+      })
   });
+
+
 
   // add the options to the button
 }
@@ -294,9 +342,9 @@ function drawChart2(selectedOption) {
       .attr("text-anchor", "end")
       .text("value");
 
-    g.selectAll(".bar")
+   var bar =  g.selectAll(".bar")
       .data(data)
-      .enter()
+   var rect = bar.enter()
       .append("rect")
       .attr("class", "bar")
       .attr("x", function(d) {
@@ -309,6 +357,14 @@ function drawChart2(selectedOption) {
       .attr("height", function(d) {
         return height - yScale(d[selectedOption]);
       });
+    rect.on('mouseover', function(d){
+        paintRect(true, d.id);
+        markMarker(true, d);
+    })
+    .on('mouseout', function(d){
+        paintRect(false, d.id);
+        markMarker(false, d);
+    })
   });
 
   // add the options to the button
@@ -317,6 +373,20 @@ function drawChart2(selectedOption) {
 /********************************************************
  ********************* Leaflet **************************
  ********************************************************/
+
+ var greenMarker = L.ExtraMarkers.icon({
+    icon: "fas fa-map-marker",
+    markerColor: 'green',
+    prefix: 'fa'
+ })
+
+ var blueMarker = L.ExtraMarkers.icon({
+   icon: "fas fa-map-marker",
+   markerColor: 'blue',
+   prefix: 'fa',
+ })
+
+ 
 
 function redrawMap(data, property) {
   map.eachLayer(function(layer) {
@@ -329,11 +399,31 @@ function redrawMap(data, property) {
   }).addTo(map);
 
   for (var i = 0; i < data.length; ++i) {
-    console.log(data[i].gps_lat);
-    L.marker([data[i].gps_lat, data[i].gps_long])
+    
+    L.marker([data[i].gps_lat, data[i].gps_long], {icon: blueMarker})
       .bindPopup(
         property + "<br>" + "from: " + data[i].name + "<br>" + data[i][property]
       )
-      .addTo(map);
+      .addTo(map).on('mousemove', function (){
+         this.setIcon(greenMarker);
+         latLang = this.getLatLng();
+         d3.selectAll('rect').each(function(d, i){
+             rect = d3.select(this);
+             if(d.gps_lat == latLang.lat && d.gps_long == latLang.lng){
+                rect.style('fill', 'green');
+             }
+         })
+      }).on('mouseout', function mouseLeft(){
+        this.setIcon(blueMarker);
+        latLang = this.getLatLng();
+        d3.selectAll('rect').each(function(d, i){
+            rect = d3.select(this);
+            if(d.gps_lat == latLang.lat && d.gps_long == latLang.lng){
+               rect.style('fill', 'steelblue');
+            }
+        })
+      })
   }
+
+
 }
